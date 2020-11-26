@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -ex
+
+# Setup alias and environment variables
+mkdir -p /home/singularity # Will become HOME and WORKDIR
+touch /home/singularity/.bashrc
+{
+    echo 'alias ls="ls --color=auto"'
+    echo 'alias ll="ls -hla"'
+    echo 'export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]singularity:\[\033[33;1m\]\w\[\033[m\]$ "' # Prettify prompt
+} >> /home/singularity/.bashrc
+
+# Install GO
+wget https://golang.org/dl/go1.15.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzvf go1.15.linux-amd64.tar.gz
+rm -f go1.15.linux-amd64.tar.gz
+echo 'export PATH=/usr/local/go/bin:$PATH' >> ~/singularity/.bashrc
+source ~/singularity/.bashrc
+
+# Retrieve Singularity
+export VERSION=3.5.2
+wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz
+tar -xzf singularity-${VERSION}.tar.gz
+rm -f singularity-${VERSION}.tar.gz
+cd singularity
+
+# Setup and install Singularity
+./mconfig
+make -C builddir
+sudo make -C builddir install
+cd
