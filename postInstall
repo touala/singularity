@@ -14,8 +14,8 @@ touch /home/singularity/.bashrc
 wget https://golang.org/dl/go1.15.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzvf go1.15.linux-amd64.tar.gz
 rm -f go1.15.linux-amd64.tar.gz
-echo 'export PATH=/usr/local/go/bin:$PATH' >> ~/singularity/.bashrc
-source ~/singularity/.bashrc
+echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/singularity/.bashrc
+source /home/singularity/.bashrc
 
 # Retrieve Singularity
 export VERSION=3.5.2
